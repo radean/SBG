@@ -1,29 +1,18 @@
+import { fileURLToPath, URL } from 'node:url'
+
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import svgLoader from 'vite-svg-loader'
-import { VitePWA } from 'vite-plugin-pwa'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue(), VitePWA({
-    registerType: 'autoUpdate',
-    manifest: {
-      "name": "0xbul1.github.io",
-      "short_name": "0xbul1",
-      "start_url": ".",
-      "display": "standalone",
-      "description": "a simple portfolio",
+  plugins: [
+    vue(),
+    vueDevTools(),
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-  }), svgLoader({svgo: false})],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: '@import "./src/styles/variables";@import "./src/styles/breakpoints";',
-      }
-    }
   },
-  // 开启本地测试
-  server: {
-    host: true
-  }
 })
